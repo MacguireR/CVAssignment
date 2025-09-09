@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macguire Reilley Sudoku Webscraper</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://kit.fontawesome.com/50c97e044b.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="inline-container">
+        <p><a href=index.html>Macguire Reilley</a></p>
+        <p><a href="contact.html">Contact Macguire Reilley</a></p>
+    </nav>
+    <h2>Automating Online Sudoku</h2>
+    <div class="three-images">
+        <img src="images/Screenshot 2025-09-08 at 5.19.01 PM.png" alt="Screenshot of Python Videogame" width="400">
+        <img src="images/Screenshot 2025-09-08 at 5.53.17 PM.png" alt="Screenshot of Python Videogame" width="400">
+        <img src="images/Screenshot 2025-09-08 at 5.56.31 PM.png" alt="Screenshot of Python Videogame" width="400">
+    </div>
+    <p>Developed three python programs working in collaboration to web scrape a sudoku puzzle using Beautiful Soup and requests, then, using the backtracking method, find the solution. And finally, manually taking over the user’s mouse and keyboard to solve the puzzle.</p>
+    <hr>
+    <h3>Code for the project:</h3>
+    <h2>Sudoku Solver Code</h2>
+    <div class="scrollable-box-small">
+    <p>def SolvePuzzle(puzzle):</p>
+    <p>    alterableSquares = []</p>
+    <p>    position = 0</p>
+    <p>    alter = False</p>
+    <p>    while position != 81:</p>
+    <p>        square = puzzle[(position // 9)][(position % 9)]</p>
+    <p>        block = puzzle[(((position // 9) // 3) * 3):((((position // 9) // 3) * 3) + 3), (((position % 9) // 3) * 3):((((position % 9) // 3) * 3) + 3)]</p>
+    <p>        column = [puzzle[0][(position % 9)], puzzle[1][(position % 9)], puzzle[2][(position % 9)], puzzle[3][(position % 9)], puzzle[4][(position % 9)],</p>
+    <p>                puzzle[5][(position % 9)], puzzle[6][(position % 9)], puzzle[7][(position % 9)], puzzle[8][(position % 9)]]</p>
+    <p>        row = puzzle[(position // 9)]</p>
+    <p>        if square == "_":</p>
+    <p>            alterableSquares.append(position)</p>
+    <p>            options = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]</p>
+    <p>            for option in options:</p>
+    <p>                if option not in block and option not in row and option not in column:</p>
+    <p>                    puzzle[(position // 9)][(position % 9)] = option</p>
+    <p>                    break</p>
+    <p>            if puzzle[(position // 9)][(position % 9)] == "_":</p>
+    <p>                alter = True</p>
+    <p>                alterableSquares.pop((-1))</p>
+    <p>                position = alterableSquares[-1]</p>
+    <p>                continue</p>
+    <p>            else:</p>
+    <p>                alter = False</p>
+    <p>        elif alter:</p>
+    <p>            option = int(square)</p>
+    <p>            option += 1</p>
+    <p>            while option != 10:</p>
+    <p>                if str(option) not in block and str(option) not in row and str(option) not in column:</p>
+    <p>                    puzzle[(position // 9)][(position % 9)] = str(option)</p>
+    <p>                    alter = False</p>
+    <p>                    break</p>
+    <p>                option += 1</p>
+    <p>            if option == 10:</p>
+    <p>                puzzle[(position // 9)][(position % 9)] = "_"</p>
+    <p>                alterableSquares.pop((-1))</p>
+    <p>                position = alterableSquares[-1]</p>
+    <p>                continue</p>
+    <p>        position += 1</p>
+    <p>    return puzzle</p>
+</div>
+    <h2>Sudoku Automation Code</h2>
+    <div class="scrollable-box-small">
+    <p>print("Importing modules...")</p>
+    <p>import SudokuWebScraper, SudokuSolver</p>
+    <p>import numpy as np</p>
+    <p>from time import sleep</p>
+    <p>import pyautogui as robot</p>
+        <p></p>
+    <p>print("Retrieving puzzle...")</p>
+    <p>puzzle, puzzleID = SudokuWebScraper.GetPuzzle()</p>
+    <p>puzzle = np.array(puzzle)</p>
+    <p>print(f"Puzzle from \"https://www.menneske.no/sudoku/eng/\"\nPuzzle ID is {puzzleID}.\nPuzzle:")</p>
+    <p>print(puzzle, "\nSolving puzzle...")</p>
+    <p>puzzle = SudokuSolver.SolvePuzzle(puzzle)</p>
+    <p>print("Solved")</p>
+        <p></p>
+    <p>robot.moveTo(1050, 1030) #This code will not work as it should on other computers because of dimensions of screen and location of apps on taskbar.</p>
+    <p>robot.click()</p>
+    <p>sleep(2)</p>
+    <p>robot.typewrite(f"https://www.menneske.no/sudoku/eng/solve.html?number={puzzleID}")</p>
+    <p>robot.press("enter")</p>
+    <p>sleep(4) #This 4 second sleep function is used to allow the webpage time to load.</p>
+    <p>robot.moveTo(1900, 200)</p>
+    <p>robot.dragTo(1900, 350, 1, button="left")</p>
+    <p>rowX = 0</p>
+    <p>columnY = 0</p>
+    <p>for row in puzzle:</p>
+    <p>    rowX = 0</p>
+    <p>    for square in row:</p>
+    <p>        robot.moveTo(660 + (rowX * 65), 260 + (columnY * 65))</p>
+    <p>        robot.click()</p>
+    <p>        robot.typewrite(square)</p>
+    <p>        rowX += 1</p>
+    <p>    columnY += 1</p>
+    <p>robot.press("enter")</p>
+</div>
+    <h2>Sudoku WebScraper Code</h2>
+    <div class="scrollable-box-small">
+    <p>from bs4 import BeautifulSoup</p>
+    <p>import requests</p>
+    <p></p>
+    <p>def GetPuzzle():</p>
+    <p>    url = "https://www.menneske.no/sudoku/eng/"</p>
+    <p>    r = requests.get(url)</p>
+    <p>    soup = BeautifulSoup(r.text, "html.parser")</p>
+    <p>    soup.prettify()</p>
+    <p></p>
+    <p>    data = soup.find("div", {"class": "grid"}).text</p>
+    <p>    data = data[2:] #Removes first two elements of puzzle because they are just "\n" new line elements.</p>
+    <p>    data = data.replace("\xa0", "") #Removes "\xa0" elements from puzzle.</p>
+    <p></p>
+    <p>    dataCheck = data[0]</p>
+    <p>    dataCount = 0</p>
+    <p>    while dataCheck != "S": #Loop removes the new line element after every character.</p>
+    <p>        if data[dataCount] != "\n":</p>
+    <p>            data = data[:dataCount + 1] + data[dataCount + 2:]</p>
+    <p>        dataCount += 1</p>
+    <p>        dataCheck = data[dataCount]</p>
+    <p></p>
+    <p>    sudokuPuzzle = []</p>
+    <p>    puzzleRow = []</p>
+    <p>    for i in range(9): #Loop turns puzzle into a nested list so that it can be easily altered and inspected.</p>
+    <p>        for ii in range(9):</p>
+    <p>            if data[ii] != "\n":</p>
+    <p>                puzzleRow.append(data[ii])</p>
+    <p>            else:</p>
+    <p>                puzzleRow.append("_")</p>
+    <p>        sudokuPuzzle.append(puzzleRow)</p>
+    <p>        puzzleRow = []</p>
+    <p>        data = data[11:]</p>
+    <p></p>
+    <p>    puzzleNumber = data[22:29]</p>
+    <p>    return sudokuPuzzle, puzzleNumber</p>
+</div>
+<footer>
+    <p>©️<a href="index.html"> Macguire Reilley</a> · <a href="https://www.linkedin.com/in/macguire-reilley-a2b7ab2a9/"><i class="fa-brands fa-linkedin"></i></a></p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macguire Reilley Python Videogame</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://kit.fontawesome.com/50c97e044b.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="inline-container">
+        <p><a href=index.html>Macguire Reilley</a></p>
+        <p><a href="contact.html">Contact Macguire Reilley</a></p>
+    </nav>
+    <h2>Python Videogame</h2>
+    <div class="three-images">
+        <img src="images/Screenshot 2025-09-07 at 7.52.12 PM.png" alt="Screenshot of Python Videogame" width="400">
+        <img src="images/Screenshot 2025-09-07 at 7.52.23 PM.png" alt="Screenshot of Python Videogame" width="400">
+        <img src="images/Screenshot 2025-09-07 at 7.52.41 PM.png" alt="Screenshot of Python Videogame" width="400">
+    </div>
+    <p>Using the Pygame library, developed a videogame in python. Helped me understand concepts like developing a UI, object-oriented programming, and game development.</p>
+    <hr>
+    <h3>Code for the project:</h3>
+    <div class="scrollable-box">
+    <p>import pygame, sys, os, random, math, asyncio
+    <p>
+    <p>async def main():
+    <p>    global backgroundFrame, backgroundAnimationTimer, gameState, tutorial, highscore, traptimer, trapped
+    <p>    pygame.init()
+    <p>    clock = pygame.time.Clock()
+    <p>    screen = pygame.display.set_mode((960, 480))
+    <p>    pygame.display.set_caption("Prismatic Game")
+    <p>    pygame.display.set_icon(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\Icon.png")))
+    <p>    
+    <p>    currentTime = 0
+    <p>    score = 0
+    <p>    highscore = 0
+    <p>    speed = 1
+    <p>    gameState = "Start"
+    <p>    tutorial = True
+    <p>    
+    <p>    class Background(pygame.sprite.Sprite):
+    <p>        def __init__(self):
+    <p>            super().__init__()
+    <p>            self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\MovingBackground1.png")).convert_alpha(), (960, 480))
+    <p>            self.rect = pygame.Rect(0, 0, 960, 480)
+    <p>        def update(self):
+    <p>            global backgroundAnimationTimer, backgroundFrame
+    <p>            if speed == 1:
+    <p>                self.image = backgroundFrames[backgroundFrame]
+    <p>                if (currentTime - backgroundAnimationTimer) > 25:
+    <p>                    backgroundFrame += 1
+    <p>                    if backgroundFrame == 18:
+    <p>                        backgroundFrame = 0
+    <p>                    backgroundAnimationTimer = pygame.time.get_ticks()
+    <p>            elif speed == 2:
+    <p>                self.image = backgroundFrames[backgroundFrame]
+    <p>                if (currentTime - backgroundAnimationTimer) > 5:
+    <p>                    backgroundFrame += 1
+    <p>                    if backgroundFrame == 18:
+    <p>                        backgroundFrame = 0
+    <p>                    backgroundAnimationTimer = pygame.time.get_ticks()
+    <p>            elif speed == 3:
+    <p>                self.image = backgroundFrames[backgroundFrame]
+    <p>                if (currentTime - backgroundAnimationTimer) > 20:
+    <p>                    backgroundFrame += 2
+    <p>                    if backgroundFrame >= 18:
+    <p>                        backgroundFrame = 0
+    <p>                    backgroundAnimationTimer = pygame.time.get_ticks()
+    <p>            elif speed == 4:
+    <p>                self.image = backgroundFrames[backgroundFrame]
+    <p>                if (currentTime - backgroundAnimationTimer) > 20:
+    <p>                    backgroundFrame += 4
+    <p>                    if backgroundFrame >= 18:
+    <p>                        backgroundFrame = 0
+    <p>                    backgroundAnimationTimer = pygame.time.get_ticks()
+    <p>            else:
+    <p>                self.image = backgroundFrames[backgroundFrame]
+    <p>                if (currentTime - backgroundAnimationTimer) > 10:
+    <p>                    backgroundFrame += 5
+    <p>                    if backgroundFrame >= 18:
+    <p>                        backgroundFrame = 0
+    <p>                    backgroundAnimationTimer = pygame.time.get_ticks()
+    <p>    background = Background()
+    <p>    backgroundGroup = pygame.sprite.Group()
+    <p>    backgroundGroup.add(background)
+    <p>    backgroundAnimationTimer = 0
+    <p>    backgroundFrames = [pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\MovingBackground1.png")).convert_alpha(), (960, 480)),
+    <p>                    pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\MovingBackground2.png")).convert_alpha(), (960, 480)),
+    <p>                    pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\MovingBackground3.png")).convert_alpha(), (960, 480)),
+    <p>                    pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\MovingBackground4.png")).convert_alpha(), (960, 480)),
+    <p>                    pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\MovingBackground5.png")).convert_alpha(), (960, 480)),
+    <p>                    pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\MovingBackground6.png")).convert_alpha(), (960, 480)),
+    <p>                    pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\MovingBackground7.png")).convert_alpha(), (960, 480)),
+    <p>                    pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\MovingBackground8.png")).convert_alpha(), (960, 480)),
+    <p>                    pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\MovingBackground9.png")).convert_alpha(), (960, 480)),
+    <p>                    pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\MovingBackground10.png")).convert_alpha(), (960, 480)),
+    <p>                    pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\MovingBackground11.png")).convert_alpha(), (960, 480)),
+    <p>                    pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\MovingBackground12.png")).convert_alpha(), (960, 480)),
+    <p>                    pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\MovingBackground13.png")).convert_alpha(), (960, 480)),
+    <p>                    pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\MovingBackground14.png")).convert_alpha(), (960, 480)),
+    <p>                    pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\MovingBackground15.png")).convert_alpha(), (960, 480)),
+    <p>                    pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\MovingBackground16.png")).convert_alpha(), (960, 480)),
+    <p>                    pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\MovingBackground17.png")).convert_alpha(), (960, 480)),
+    <p>                    pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\MovingBackground18.png")).convert_alpha(), (960, 480))]
+    <p>    backgroundFrame = 0
+    <p>    
+    <p>    class Player(pygame.sprite.Sprite):
+    <p>        def __init__(self):
+    <p>            super().__init__()
+    <p>            self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\PlayerRed.png")).convert_alpha(), (32, 32))
+    <p>            self.rect = pygame.Rect(80, 224, 32, 32)
+    <p>        def update(self):
+    <p>            player.rect.y += playerYChange
+    <p>            if player.rect.y < 0:
+    <p>                player.rect.y = 0
+    <p>            if player.rect.y > 448:
+    <p>                player.rect.y = 448
+    <p>            if playerColor == "Red":
+    <p>                self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\PlayerRed.png")).convert_alpha(), (32, 32))
+    <p>            elif playerColor == "Blue":
+    <p>                self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\PlayerBlue.png")).convert_alpha(), (32, 32))
+    <p>            else:
+    <p>                self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\PlayerYellow.png")).convert_alpha(), (32, 32))
+    <p>    player = Player()
+    <p>    playerGroup = pygame.sprite.Group()
+    <p>    playerGroup.add(player)
+    <p>    playerColor = "Red"
+    <p>    playerYChange = 0
+    <p>    movingDown = False
+    <p>    movingUp = False
+    <p>    
+    <p>    class Barrier(pygame.sprite.Sprite):
+    <p>        def __init__(self, posX, posY, color):
+    <p>            super().__init__()
+    <p>            if color == "Red":
+    <p>                self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\ColorBarrierRed.png")).convert_alpha(), (32, 152))
+    <p>            elif color == "Blue":
+    <p>                self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\ColorBarrierBlue.png")).convert_alpha(), (32, 152))
+    <p>            elif color == "Yellow":
+    <p>                self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\ColorBarrierYellow.png")).convert_alpha(), (32, 152))
+    <p>            else:
+    <p>                self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\ColorBarrierBlack.png")).convert_alpha(), (32, 152))
+    <p>            self.rect = pygame.Rect(posX, posY, 32, 152)
+    <p>            self.color = color
+    <p>        def update(self):
+    <p>            global colorGroup, gameState, highscore
+    <p>            if gameState == "Play":
+    <p>                if tutorial == False:
+    <p>                    if speed == 1:
+    <p>                        self.rect.x -= 3
+    <p>                    elif speed == 2:
+    <p>                        self.rect.x -= 4
+    <p>                    elif speed == 3:
+    <p>                        self.rect.x -= 5
+    <p>                    elif speed == 4:
+    <p>                        self.rect.x -= 7
+    <p>                    else:
+    <p>                        self.rect.x -= 9
+    <p>                else:
+    <p>                    self.rect.x -= 2
+    <p>            if self.rect.x < -32:
+    <p>                self.kill()
+    <p>                if self.rect.y == 4 and tutorial == False:
+    <p>                    colorGroup = [random.choice(colors),random.choice(colors),random.choice(colors)]
+    <p>                    while colorGroup == ["Black", "Black", "Black"] or colorGroup == ["Yellow", "Yellow", "Yellow"] or colorGroup == ["Blue", "Blue", "Blue"] or colorGroup == ["Red", "Red", "Red"]:
+    <p>                        colorGroup = [random.choice(colors),random.choice(colors),random.choice(colors)]
+    <p>                    barrier = Barrier(960, 4, colorGroup[0])
+    <p>                    barrierGroup.add(barrier)
+    <p>                    barrier = Barrier(960, 164, colorGroup[1])
+    <p>                    barrierGroup.add(barrier)
+    <p>                    barrier = Barrier(960, 324, colorGroup[2])
+    <p>                    barrierGroup.add(barrier)
+    <p>            if self.rect.colliderect(player.rect) == True and playerColor != self.color:
+    <p>                if score > highscore:
+    <p>                    highscore = score
+    <p>                gameState = "Dead"
+    <p>            if gameState == "Dead":
+    <p>                self.kill()
+    <p>    barrierGroup = pygame.sprite.Group()
+    <p>    
+    <p>    def spawnBarriers():
+    <p>        colors = ["Red", "Blue", "Yellow"]
+    <p>        colorGroup = [random.choice(colors),random.choice(colors),random.choice(colors)]
+    <p>        while colorGroup == ["Black", "Black", "Black"] or colorGroup == ["Yellow", "Yellow", "Yellow"] or colorGroup == ["Blue", "Blue", "Blue"] or colorGroup == ["Red", "Red", "Red"]:
+    <p>            colorGroup = [random.choice(colors),random.choice(colors),random.choice(colors)]
+    <p>        barrier = Barrier(800, 4, colorGroup[0])
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(800, 164, colorGroup[1])
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(800, 324, colorGroup[2])
+    <p>        barrierGroup.add(barrier)
+    <p>        colorGroup = [random.choice(colors),random.choice(colors),random.choice(colors)]
+    <p>        while colorGroup == ["Black", "Black", "Black"] or colorGroup == ["Yellow", "Yellow", "Yellow"] or colorGroup == ["Blue", "Blue", "Blue"] or colorGroup == ["Red", "Red", "Red"]:
+    <p>            colorGroup = [random.choice(colors),random.choice(colors),random.choice(colors)]
+    <p>        barrier = Barrier(1280, 4, colorGroup[0])
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(1280, 164, colorGroup[1])
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(1280, 324, colorGroup[2])
+    <p>        barrierGroup.add(barrier)
+    <p>    
+    <p>    def spawnTutorialBarriers():
+    <p>        barrier = Barrier(960, 4, "Black")
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(960, 164, "Red")
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(960, 324, "Black")
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(1440, 4, "Red")
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(1440, 164, "Black")
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(1440, 324, "Black")
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(1920, 4, "Black")
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(1920, 164, "Black")
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(1920, 324, "Red")
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(2400, 4, "Black")
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(2400, 164, "Black")
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(2400, 324, "Blue")
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(2880, 4, "Black")
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(2880, 164, "Yellow")
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(2880, 324, "Black")
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(3360, 4, "Yellow")
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(3360, 164, "Black")
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(3360, 324, "Red")
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(3840, 4, "Red")
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(3840, 164, "Black")
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(3840, 324, "Blue")
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(4320, 4, "Black")
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(4320, 164, "Yellow")
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(4320, 324, "Black")
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(4800, 4, "Black")
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(4800, 164, "Blue")
+    <p>        barrierGroup.add(barrier)
+    <p>        barrier = Barrier(4800, 324, "Red")
+    <p>        barrierGroup.add(barrier)
+    <p>    
+    <p>    class SwitchParticles(pygame.sprite.Sprite):
+    <p>        def __init__(self, posY, color):
+    <p>            super().__init__()
+    <p>            self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\RedParticleEffect1.png")).convert_alpha(), (50, 52))
+    <p>            self.rect = pygame.Rect(72, (posY - 10), 50, 52)
+    <p>            self.timer = pygame.time.get_ticks()
+    <p>            if color == "Red":
+    <p>                self.frames = [pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\RedParticleEffect1.png")).convert_alpha(), (50, 52)),
+    <p>                               pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\RedParticleEffect2.png")).convert_alpha(), (50, 52)),
+    <p>                               pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\RedParticleEffect3.png")).convert_alpha(), (50, 52)),
+    <p>                               pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\RedParticleEffect4.png")).convert_alpha(), (50, 52)),
+    <p>                               pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\RedParticleEffect5.png")).convert_alpha(), (50, 52))]
+    <p>            elif color == "Blue":
+    <p>                self.frames = [pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\BlueParticleEffect1.png")).convert_alpha(), (50, 52)),
+    <p>                               pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\BlueParticleEffect2.png")).convert_alpha(), (50, 52)),
+    <p>                               pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\BlueParticleEffect3.png")).convert_alpha(), (50, 52)),
+    <p>                               pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\BlueParticleEffect4.png")).convert_alpha(), (50, 52)),
+    <p>                               pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\BlueParticleEffect5.png")).convert_alpha(), (50, 52))]
+    <p>            else:
+    <p>                self.frames = [pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\YellowParticleEffect1.png")).convert_alpha(), (50, 52)),
+    <p>                               pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\YellowParticleEffect2.png")).convert_alpha(), (50, 52)),
+    <p>                               pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\YellowParticleEffect3.png")).convert_alpha(), (50, 52)),
+    <p>                               pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\YellowParticleEffect4.png")).convert_alpha(), (50, 52)),
+    <p>                               pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\YellowParticleEffect5.png")).convert_alpha(), (50, 52))]
+    <p>        def update(self):
+    <p>            if currentTime - self.timer < 50:
+    <p>                self.image = self.frames[0]
+    <p>            elif currentTime - self.timer < 100:
+    <p>                self.image = self.frames[1]
+    <p>            elif currentTime - self.timer < 150:
+    <p>                self.image = self.frames[2]
+    <p>            elif currentTime - self.timer < 200:
+    <p>                self.image = self.frames[3]
+    <p>            elif currentTime - self.timer < 250:
+    <p>                self.image = self.frames[4]
+    <p>            else:
+    <p>                self.kill()
+    <p>            if gameState == "Dead":
+    <p>                self.kill()
+    <p>    switchParticlesGroup = pygame.sprite.Group()
+    <p>    
+    <p>    class Orb(pygame.sprite.Sprite):
+    <p>        def __init__(self, ypos):
+    <p>            super().__init__()
+    <p>            self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\MetallicOrb2.png")).convert_alpha(), (32, 32))
+    <p>            self.rect = pygame.Rect(960, ypos, 32, 32)
+    <p>            self.particleTracker = 0
+    <p>            self.particleColors = ["Red", "Red", "Red", "Blue", "Blue", "Blue", "Yellow", "Yellow", "Yellow"]
+    <p>            self.timer = pygame.time.get_ticks()
+    <p>        def update(self):
+    <p>            global trapped, traptimer
+    <p>            self.rect.x -= 2
+    <p>            self.rect.y += math.sin(self.rect.x / 40) * 2
+    <p>            if self.rect.x < -32:
+    <p>                self.kill()
+    <p>            if self.rect.colliderect(player.rect):
+    <p>                trapped = True
+    <p>                traptimer = pygame.time.get_ticks()
+    <p>                self.kill()
+    <p>            if currentTime - self.timer > 100:
+    <p>                orbParticle = OrbParticle(self.rect.x, self.rect.y, self.particleColors[self.particleTracker])
+    <p>                self.particleTracker += 1
+    <p>                if self.particleTracker == 9:
+    <p>                    self.particleTracker = 0
+    <p>                orbParticleGroup.add(orbParticle)
+    <p>                self.timer = pygame.time.get_ticks()
+    <p>            if gameState == "Dead":
+    <p>                self.kill()
+    <p>    orbGroup = pygame.sprite.Group()
+    <p>    orbSpawnTimer = 0
+    <p>    trapped = False
+    <p>    traptimer = 0
+    <p>    
+    <p>    class OrbParticle(pygame.sprite.Sprite):
+    <p>        def __init__(self, xpos, ypos, color):
+    <p>            super().__init__()
+    <p>            self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\OrbParticleEffectRed.png")).convert_alpha(), (16, 16))
+    <p>            self.rect = pygame.Rect(xpos + 8, ypos + 8, 16, 16)
+    <p>            self.timer = pygame.time.get_ticks()
+    <p>            self.color = color
+    <p>        def update(self):
+    <p>            if self.color == "Red":
+    <p>                if currentTime - self.timer < 300:
+    <p>                    self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\OrbParticleEffectRed.png")).convert_alpha(), (16, 16))
+    <p>                elif currentTime - self.timer < 600:
+    <p>                    self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\OrbParticleEffectRed2.png")).convert_alpha(), (16, 16))
+    <p>                elif currentTime - self.timer < 900:
+    <p>                    self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\OrbParticleEffectRed3.png")).convert_alpha(), (16, 16))
+    <p>                else:
+    <p>                    self.kill()
+    <p>            elif self.color == "Blue":
+    <p>                if currentTime - self.timer < 300:
+    <p>                    self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\OrbParticleEffectBlue.png")).convert_alpha(), (16, 16))
+    <p>                elif currentTime - self.timer < 600:
+    <p>                    self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\OrbParticleEffectBlue2.png")).convert_alpha(), (16, 16))
+    <p>                elif currentTime - self.timer < 900:
+    <p>                    self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\OrbParticleEffectBlue3.png")).convert_alpha(), (16, 16))
+    <p>                else:
+    <p>                    self.kill()
+    <p>            else:
+    <p>                if currentTime - self.timer < 300:
+    <p>                    self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\OrbParticleEffectYellow.png")).convert_alpha(), (16, 16))
+    <p>                elif currentTime - self.timer < 600:
+    <p>                    self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\OrbParticleEffectYellow2.png")).convert_alpha(), (16, 16))
+    <p>                elif currentTime - self.timer < 900:
+    <p>                    self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\OrbParticleEffectYellow3.png")).convert_alpha(), (16, 16))</p>
+    <p>                else:</p>
+    <p>                    self.kill()</p>
+    <p>            if gameState == "Dead":</p>
+    <p>                self.kill()</p>
+    <p>    orbParticleGroup = pygame.sprite.Group()</p>
+    <p>    </p>
+    <p>    class Trap(pygame.sprite.Sprite):</p>
+    <p>        def __init__(self):</p>
+    <p>            super().__init__()</p>
+    <p>            self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\trap.png")).convert_alpha(), (40, 36))</p>
+    <p>            self.rect = pygame.Rect(0, 0, 40, 36)</p>
+    <p>        def update(self):</p>
+    <p>            self.rect.x = player.rect.x - 4</p>
+    <p>            self.rect.y = player.rect.y - 2</p>
+    <p>    trapGroup = pygame.sprite.Group()</p>
+    <p>    trap = Trap()</p>
+    <p>    trapGroup.add(trap)</p>
+    <p>    </p>
+    <p>    class StartScreen(pygame.sprite.Sprite):</p>
+    <p>        def __init__(self):</p>
+    <p>            super().__init__()</p>
+    <p>            self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\StartLogo1.png")).convert_alpha(), (960, 480))</p>
+    <p>            self.rect = pygame.Rect(0, 0, 960, 480)</p>
+    <p>        def update(self):</p>
+    <p>            if tutorial == True:</p>
+    <p>                self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\StartLogo1.png")).convert_alpha(), (960, 480))</p>
+    <p>            else:</p>
+    <p>                self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\StartLogo2.png")).convert_alpha(), (960, 480))</p>
+    <p>    startScreenGroup = pygame.sprite.Group()</p>
+    <p>    startScreen = StartScreen()</p>
+    <p>    startScreenGroup.add(startScreen)</p>
+    <p>    </p>
+    <p>    class TutorialText(pygame.sprite.Sprite):</p>
+    <p>        def __init__(self):</p>
+    <p>            super().__init__()</p>
+    <p>            self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\TutorialText1.png")).convert_alpha(), (960, 480))</p>
+    <p>            self.rect = pygame.Rect(0, 0, 960, 480)</p>
+    <p>            self.orbSpawned = False</p>
+    <p>        def update(self):</p>
+    <p>            global tutorial</p>
+    <p>            if (currentTime - tutorialTimer) < 15000:</p>
+    <p>                self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\TutorialText1.png")).convert_alpha(), (960, 480))</p>
+    <p>            elif (currentTime - tutorialTimer) < 27200:</p>
+    <p>                self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\TutorialText2.png")).convert_alpha(), (960, 480))</p>
+    <p>            elif (currentTime - tutorialTimer) < 35000:</p>
+    <p>                if self.orbSpawned == False and tutorial == True:</p>
+    <p>                    orb = Orb(230)</p>
+    <p>                    orbGroup.add(orb)</p>
+    <p>                    self.orbSpawned = True</p>
+    <p>                self.image = pygame.transform.scale(pygame.image.load(os.path.join(r"C:\Users\Owner\Documents\Code\ColorPygame\Color Game Art\TutorialText3.png")).convert_alpha(), (960, 480))</p>
+    <p>            else:</p>
+    <p>                tutorial = False</p>
+    <p>    tutorialTextGroup = pygame.sprite.Group()</p>
+    <p>    tutorialText = TutorialText()</p>
+    <p>    tutorialTextGroup.add(tutorialText)</p>
+    <p>    tutorialTimer = 0</p>
+    <p>    </p>
+    <p>    font = pygame.font.Font("freesansbold.ttf", 32)</p>
+    <p>    </p>
+    <p>    while True:</p>
+    <p>        for event in pygame.event.get():</p>
+    <p>            if event.type == pygame.QUIT:</p>
+    <p>                pygame.quit()</p>
+    <p>                sys.exit()</p>
+    <p>            if event.type == pygame.MOUSEBUTTONDOWN and gameState == "Dead" and mouseX > 400 and mouseX < 540 and mouseY > 300 and mouseY < 335:</p>
+    <p>                gameState = "Play"</p>
+    <p>                score = 0</p>
+    <p>                speed = 0</p>
+    <p>                if tutorial == False:</p>
+    <p>                    spawnBarriers()</p>
+    <p>                else:</p>
+    <p>                    spawnTutorialBarriers()</p>
+    <p>                    playerColor = "Red"</p>
+    <p>                    tutorialTimer = pygame.time.get_ticks()</p>
+    <p>            if event.type == pygame.MOUSEBUTTONDOWN and gameState == "Start" and mouseX > 660 and mouseX < 755 and mouseY > 250 and mouseY < 275:</p>
+    <p>                gameState = "Play"</p>
+    <p>                score = 0</p>
+    <p>                speed = 0</p>
+    <p>                if tutorial == False:</p>
+    <p>                    spawnBarriers()</p>
+    <p>                if tutorial == True:</p>
+    <p>                    spawnTutorialBarriers()</p>
+    <p>                    tutorialTimer = pygame.time.get_ticks()</p>
+    <p>            if event.type == pygame.MOUSEBUTTONDOWN and gameState == "Start" and mouseX > 655 and mouseX < 755 and mouseY > 200 and mouseY < 220:</p>
+    <p>                if tutorial == True:</p>
+    <p>                    tutorial = False</p>
+    <p>                else:</p>
+    <p>                    tutorial = True</p>
+    <p>            if event.type == pygame.KEYDOWN:</p>
+    <p>                if event.key == pygame.K_SPACE and trapped == False and gameState == "Play":</p>
+    <p>                    if playerColor == "Red":</p>
+    <p>                        playerColor = "Blue"</p>
+    <p>                        switchParticles = SwitchParticles(player.rect.y, "Blue")</p>
+    <p>                        switchParticlesGroup.add(switchParticles)</p>
+    <p>                    elif playerColor == "Blue":</p>
+    <p>                        playerColor = "Yellow"</p>
+    <p>                        switchParticles = SwitchParticles(player.rect.y, "Yellow")</p>
+    <p>                        switchParticlesGroup.add(switchParticles)</p>
+    <p>                    else:</p>
+    <p>                        playerColor = "Red"</p>
+    <p>                        switchParticles = SwitchParticles(player.rect.y, "Red")</p>
+    <p>                        switchParticlesGroup.add(switchParticles)</p>
+    <p>                if event.key == pygame.K_UP or event.key == pygame.K_w:</p>
+    <p>                    movingUp = True</p>
+    <p>                if event.key == pygame.K_DOWN or event.key == pygame.K_s:</p>
+    <p>                    movingDown = True</p>
+    <p>            if event.type == pygame.KEYUP:</p>
+    <p>                if event.key == pygame.K_UP or event.key == pygame.K_w:</p>
+    <p>                    movingUp = False</p>
+    <p>                if event.key == pygame.K_DOWN or event.key == pygame.K_s:</p>
+    <p>                    movingDown = False</p>
+    <p>    </p>
+    <p>        if gameState == "Start": #This makes sure that the tutorial timer will not start until the tutorial starts.</p>
+    <p>            tutorialTimer = pygame.time.get_ticks()</p>
+    <p>    </p>
+    <p>        mouseX, mouseY = pygame.mouse.get_pos()</p>
+    <p>    </p>
+    <p>        if movingUp == True and playerYChange >= -6:</p>
+    <p>            playerYChange -= 0.3</p>
+    <p>        elif movingDown == True and playerYChange <= 6:</p>
+    <p>            playerYChange += 0.3</p>
+    <p>        elif movingUp == False and movingDown == False:</p>
+    <p>            if playerYChange > 0:</p>
+    <p>                playerYChange -= 0.05</p>
+    <p>            elif playerYChange <0:</p>
+    <p>                playerYChange += 0.05</p>
+    <p>    </p>
+    <p>        if gameState == "Play" and tutorial == False:</p>
+    <p>            if score < 400:</p>
+    <p>                speed = 1</p>
+    <p>                score += 1</p>
+    <p>                colors = ["Red", "Blue", "Yellow"]</p>
+    <p>            elif score < 1500:</p>
+    <p>                speed = 2</p>
+    <p>                score += 2</p>
+    <p>                colors = ["Red", "Red", "Blue", "Blue", "Yellow", "Yellow", "Black"]</p>
+    <p>            elif score < 5000:</p>
+    <p>                speed = 3</p>
+    <p>                score += 3</p>
+    <p>                colors = ["Red", "Blue", "Yellow", "Black"]</p>
+    <p>            elif score < 10000:</p>
+    <p>                speed = 4</p>
+    <p>                score += 4</p>
+    <p>                colors = ["Red", "Blue", "Yellow", "Black", "Black"]</p>
+    <p>            else:</p>
+    <p>                speed = 5</p>
+    <p>                score += 5</p>
+    <p>                colors = ["Red", "Blue", "Yellow", "Black", "Black", "Black"]</p>
+    <p>        elif gameState == "Play" and tutorial == True:</p>
+    <p>            speed = 1</p>
+    <p>    </p>
+    <p>        if speed >= 3:</p>
+    <p>            if currentTime - orbSpawnTimer > 5000:</p>
+    <p>                orb = Orb(random.randint(40, 460))</p>
+    <p>                orbGroup.add(orb)</p>
+    <p>                orbSpawnTimer = pygame.time.get_ticks()</p>
+    <p>    </p>
+    <p>        if trapped == True and (currentTime - traptimer > 1000):</p>
+    <p>            trapped = False</p>
+    <p>    </p>
+    <p>        backgroundGroup.draw(screen)</p>
+    <p>        orbParticleGroup.draw(screen)</p>
+    <p>        orbGroup.draw(screen)</p>
+    <p>        if gameState == "Play" or gameState == "Start":</p>
+    <p>            playerGroup.draw(screen)</p>
+    <p>        if trapped == True and gameState == "Play":</p>
+    <p>            trapGroup.draw(screen)</p>
+    <p>        switchParticlesGroup.draw(screen)</p>
+    <p>        barrierGroup.draw(screen)</p>
+    <p>    </p>
+    <p>        if gameState == "Dead":</p>
+    <p>            scoreTextDisplay = font.render(str("Score:"), True, (180, 0, 0))</p>
+    <p>            screen.blit(scoreTextDisplay, (425, 110))</p>
+    <p>            scoreDisplay = font.render(str(score // 100), True, (180, 0, 0))</p>
+    <p>            screen.blit(scoreDisplay, (450, 140))</p>
+    <p>            highscoreTextDisplay = font.render(str("High Score:"), True, (180, 180, 0))</p>
+    <p>            screen.blit(highscoreTextDisplay, (386, 210))</p>
+    <p>            highscoreDisplay = font.render(str(highscore // 100), True, (180, 180, 0))</p>
+    <p>            screen.blit(highscoreDisplay, (450, 240))</p>
+    <p>            replayTextDisplay = font.render(str("Replay?"), True, (0, 0, 180))</p>
+    <p>            screen.blit(replayTextDisplay, (410, 310))</p>
+    <p>            player.rect.y = 224</p>
+    <p>            playerColor = "Red"</p>
+    <p>    </p>
+    <p>        if gameState == "Start":</p>
+    <p>            startScreenGroup.draw(screen)</p>
+    <p>    </p>
+    <p>        if gameState == "Play" and tutorial == True:</p>
+    <p>            tutorialTextGroup.draw(screen)</p>
+    <p>    </p>
+    <p>        if gameState == "Play" or gameState == "Start":</p>
+    <p>            playerGroup.update()</p>
+    <p>        if gameState == "Play":</p>
+    <p>            if (score // 100) % 3 == 0:</p>
+    <p>                scoreColor = (218, 54, 54)</p>
+    <p>            elif (score // 100) % 3 == 1:</p>
+    <p>                scoreColor = (56, 69, 213)</p>
+    <p>            else:</p>
+    <p>                scoreColor = (204, 218, 54)</p>
+    <p>            scoreDisplay = font.render(str(score // 100), True, scoreColor)</p>
+    <p>            if tutorial == False:</p>
+    <p>                screen.blit(scoreDisplay, (440, 12))</p>
+    <p>            backgroundGroup.update()</p>
+    <p>            trapGroup.update()</p>
+    <p>        switchParticlesGroup.update()</p>
+    <p>        orbGroup.update()</p>
+    <p>        orbParticleGroup.update()</p>
+    <p>        barrierGroup.update()</p>
+    <p>        startScreenGroup.update()</p>
+    <p>        tutorialTextGroup.update()</p>
+    <p>    </p>
+    <p>        currentTime = pygame.time.get_ticks()</p>
+    <p>        pygame.display.flip()</p>
+    <p>        await asyncio.sleep(0)</p>
+    <p>        clock.tick(60)</p>
+    <p>    </p>
+    <p>asyncio.run(main()) </p>
+</div>
+<footer>
+    <p>©️<a href="index.html"> Macguire Reilley</a> · <a href="https://www.linkedin.com/in/macguire-reilley-a2b7ab2a9/"><i class="fa-brands fa-linkedin"></i></a></p>
+</footer>
+</body>
+</html>
