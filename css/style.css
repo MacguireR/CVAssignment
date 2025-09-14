@@ -6,6 +6,7 @@ body {
   font-family: 'Poppins', sans-serif
   }
 
+
 /****************   Nav Section **********************/
 nav {
   margin: -6px;
@@ -114,15 +115,14 @@ section ul {
 }
 
 section a {
-  display: grid;
   color: #FFFFFF;
+  font-weight: bold;
   font-family: 'Poppins', sans-serif;
   text-decoration: none;
 }
 
 section a:hover {
-  display: grid;
-  color: #FFFFFF;
+  color: rgb(255, 255, 255);
   font-family: 'Poppins', sans-serif;
   text-decoration: underline;
 }
